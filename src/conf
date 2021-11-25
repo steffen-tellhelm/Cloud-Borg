@@ -1,0 +1,12 @@
+export BORG_REPO=~/.backup/my-backup
+export BORG_PASSCOMMAND="secret-tool lookup borg borg-key"
+#export BORG_PASSPHRASE='my-very-secret'
+BACKUP_DIR=~
+BUCKET=gs://my-backup
+#BUCKET=s3://my-backup
+UPLOAD_CMD='gsutil -m rsync -d -r ${BORG_REPO} ${BUCKET}'
+#UPLOAD_CMD 'aws s3 sync ${BORG_REPO} ${BUCKET} --no-progress --delete
+CRITICAL_MESSAGE_CMD='notify-send -i dialog-error -u critical Backup "$MESSAGE"'
+INFO_MESSAGE_CMD='notify-send -i dialog-information -u low Backup "$MESSAGE"'
+WAIT_SECONDS=60
+

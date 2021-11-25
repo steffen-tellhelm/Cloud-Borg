@@ -1,0 +1,8 @@
+[Unit]
+Description=Borg backup service
+#Requires=gpg-agent.service
+#After=gpg-agent.service
+
+[Service]
+ExecStart=/home/user/.backup/backup
+#ExecStart=/usr/local/share/backup/backup

@@ -1,0 +1,4 @@
+echo "checking for updated gsutil"
+pip install gsutil -q --upgrade || critical_exit "Update gsutil fehlgeschlagen"
+# echo "checking for updated AWS CLI"
+# pip3 install awscli -q --prefix /usr/local --upgrade || critical_exit "Update AWS CLI fehlgeschlagen"

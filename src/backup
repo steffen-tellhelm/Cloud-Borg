@@ -1,0 +1,43 @@
+#!/bin/bash
+
+CONF_FILE=$(dirname $0)/conf
+EXCLUDE_FILE=$(dirname $0)/exclude
+PRE_BACKUP_FILE=$(dirname $0)/pre-backup
+PRE_UPLOAD_FILE=$(dirname $0)/pre-upload
+
+function critical_exit() {
+	MESSAGE="$1"
+	echo "Fehler: $MESSAGE"
+	eval $CRITICAL_MESSAGE_CMD
+	exit -1
+}
+
+function notify_info() {
+	MESSAGE="$1"
+	echo "Info: $MESSAGE"
+	eval $INFO_MESSAGE_CMD
+}
+
+[[ -f $CONF_FILE ]] || critical_exit "fehlende Konfigurationsdatei $CONF_FILE"
+. $CONF_FILE
+export CRITICAL_MESSAGE_CMD
+export INFO_MESSAGE_CMD
+
+[[ -f $EXCLUDE_FILE ]] || touch ${EXCLUDE_FILE}
+
+if [[ $WAIT_SECONDS > 0 ]]; then
+	echo "waiting for initialized user session, deferring backup for $WAIT_SECONDS seconds"
+	/bin/sleep $WAIT_SECONDS
+fi
+
+notify_info "Vorgang wird gestartet"
+
+[[ -f $PRE_BACKUP_FILE ]] && . $PRE_BACKUP_FILE
+
+borg create -v --stats --compression=zlib --exclude-from=${EXCLUDE_FILE} ::{now} ${BACKUP_DIR} || critical_exit "Erstellung fehlgeschlagen"
+borg prune -v --list --save-space --keep-daily=7 --keep-weekly=4 --keep-monthly=12 --keep-yearly=1 || critical_exit "Bereinigung fehlgeschlagen"
+
+[[ -f $PRE_UPLOAD_FILE ]] && . $PRE_UPLOAD_FILE
+eval $UPLOAD_CMD || critical_exit "Upload fehlgeschlagen"
+
+notify_info "Vorgang erfolgreich abgeschlossen"

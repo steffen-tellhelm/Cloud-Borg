@@ -1,0 +1,17 @@
+/home/*/.cache/
+/home/*/.local/share/Trash
+/home/*/.local/share/recently-used.xbel*
+/home/*/.steam
+/home/*/.local/share/Steam
+/home/*/.dropbox*
+/home/*/.mozilla/firefox/*/storage
+/home/*/.mozilla/firefox/*/datareporting
+/home/*/.mozilla/firefox/*/weave/logs
+"/home/*/.mozilla/firefox/Crash Reports"
+/home/*/.dbus
+/home/*/.gvfs
+/home/*/.thumbnails
+/home/*/Downloads
+/home/*/Security
+/home/*/Videos
+/home/*/.backup/my-backup-folder
