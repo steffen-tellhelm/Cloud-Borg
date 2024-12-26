@@ -1,1 +1,8 @@
-echo "do be done before backup"
+# do be done before backup
+echo "setup/update Python environment"
+python3.12 -m venv --upgrade-deps ~/.backup/venv
+source ~/.backup/venv/bin/activate
+echo "checking for updated pip and setuptools"
+pip install --upgrade pip setuptools wheel || critical_exit "Update pip and setuptools fehlgeschlagen"
+echo "checking for updated borgbackup"
+pip install borgbackup --upgrade || critical_exit "Update borgbackup fehlgeschlagen"
