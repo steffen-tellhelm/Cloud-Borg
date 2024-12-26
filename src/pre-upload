@@ -1,5 +1,6 @@
 # done before upload
 echo "checking for updated gsutil"
+pip install --no-cache-dir -U crcmod
 pip install gsutil --upgrade || critical_exit "Update gsutil fehlgeschlagen"
 # echo "checking for updated AWS CLI"
 # pip install awscli --upgrade || critical_exit "Update AWS CLI fehlgeschlagen"
